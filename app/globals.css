@@ -1,26 +1,101 @@
 @import "tailwindcss";
+@source "../components";
+@source "../app";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─── Tailwind v4 Design Tokens ─────────────────────────────────────────── */
+@theme {
+  /* Surfaces */
+  --color-surface:       #F7F8FA;
+  --color-card:          #FFFFFF;
+  --color-navy:          #1A1E2E;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Borders */
+  --color-border:        #E6E8EC;
+  --color-border-strong: #D1D5DB;
+
+  /* Typography */
+  --color-foreground:    #1F2937;
+  --color-muted:         #6B7280;
+  --color-caption:       #9CA3AF;
+
+  /* Brand */
+  --color-accent:        #4FC3D9;
+  --color-secondary:     #C5A3E0;
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── Raw CSS Variables (for rgba/computed values) ──────────────────────── */
+:root {
+  --accent:        #4FC3D9;
+  --accent-rgb:    79, 195, 217;
+  --accent-dim:    rgba(79, 195, 217, 0.12);
+  --secondary:     #C5A3E0;
+  --secondary-rgb: 197, 163, 224;
+  --secondary-dim: rgba(197, 163, 224, 0.15);
+}
+
+@layer base {
+  html {
+    /* Lenis handles smooth scroll — disable native */
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-foreground);
+    font-family: var(--font-sans, system-ui, sans-serif);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* ─── Typography Utilities ───────────────────────────────────────────────── */
+  .headline {
+    font-weight: 200;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+  }
+
+  .headline-md {
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  /* Mono numbers — large, thin, tabular */
+  .metric-num {
+    font-family: var(--font-mono, monospace);
+    font-weight: 200;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+}
+
+@layer utilities {
+  /* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+  ::-webkit-scrollbar       { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--color-surface); }
+  ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-caption); }
+
+  /* ─── Selection ──────────────────────────────────────────────────────────── */
+  ::selection {
+    background: var(--accent-dim);
+    color: var(--color-foreground);
+  }
+
+  /* ─── Reduced Motion ─────────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
